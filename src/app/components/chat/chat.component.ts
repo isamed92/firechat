@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
@@ -6,31 +6,33 @@ import { ChatService } from 'src/app/services/chat.service';
   templateUrl: './chat.component.html',
   styles: []
 })
-export class ChatComponent {
+export class ChatComponent implements OnInit {
   mensaje: string = '';
 
+  elemento: any;
+
   constructor(private chatService: ChatService) {
-    this.chatService.cargarMensajes()
-        .subscribe();
-   }
+    this.chatService.cargarMensajes().subscribe(() => {
+      setTimeout(() => {
+        this.elemento.scrollTop = this.elemento.scrollHeight;
+      }, 20);
+    });
+  }
 
-  
+  ngOnInit() {
+    this.elemento = document.getElementById('app-mensajes');
+  }
 
-  enviarMensaje(){
+  enviarMensaje() {
     console.log(this.mensaje);
 
-
-    if(this.mensaje.length === 0){
+    if (this.mensaje.length === 0) {
       return;
     }
 
-    this.chatService.agregarMensaje(this.mensaje)
-        .then(
-          () => this.mensaje = ''
-        )
-        .catch(
-          (err) => console.err('error al guardar', err)
-        );
-
+    this.chatService
+      .agregarMensaje(this.mensaje)
+      .then(() => (this.mensaje = ''))
+      .catch(err => console.error('error al guardar', err));
   }
 }
