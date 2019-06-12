@@ -1,7 +1,13 @@
 <h1>Chat</h1>
 <hr />
 <div class="app-mensajes" id="app-mensajes">
-  <div class="">
+  <div class="" *ngFor="let chat of chatService.chats">
+    <span class="badge badge-primary">{{chat.nombre}}</span>
+    <p>
+      {{chat.mensaje}}
+    </p>
+  </div>
+  <!-- <div class="">
     <span class="badge badge-primary">Isaias</span>
     <p>
       Este es un mensaje del chat
@@ -12,7 +18,7 @@
     <p>
       Saludos isa
     </p>
-  </div>
+  </div> -->
 
 
 </div>
