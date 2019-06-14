@@ -63,7 +63,8 @@ export class ChatService {
   agregarMensaje( text: string ){
     // TODO: falta el uid del usuario
     let mensaje: Mensaje = {
-      nombre: 'Isaias',
+      uid: this.usuario.uid,
+      nombre: this.usuario.nombre,
       mensaje: text,
       fecha: new Date().getTime()
     }
@@ -74,9 +75,14 @@ export class ChatService {
 
 
   login(proveedor: string) {
-    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+    if(proveedor === 'google'){
+      this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+    } else {
+      this.afAuth.auth.signInWithPopup(new auth.TwitterAuthProvider());
+    }
   }
   logout() {
+    this.usuario = {};
     this.afAuth.auth.signOut();
   }
 }
